@@ -1,0 +1,371 @@
+/* ==========================================
+   TaskNavi ダッシュボード専用スタイル
+   ========================================== */
+
+.dashboard-container {
+  --primary-color: #2563eb;
+  --danger-color: #dc2626;
+  --warning-color: #d97706;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-color: #1e293b;
+  --text-sub: #64748b;
+  --border-color: #e2e8f0;
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  padding-bottom: 40px;
+}
+
+.dashboard-container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ヘッダー */
+.dashboard-container header {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.dashboard-container .logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.dashboard-container .header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-container .user-welcome {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-right: 8px;
+}
+
+/* ボタン共通 */
+.dashboard-container .btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.dashboard-container .btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.dashboard-container .btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.dashboard-container .btn-secondary {
+  background-color: #e2e8f0;
+  color: var(--text-color);
+}
+
+.dashboard-container .btn-logout {
+  background-color: transparent;
+  color: var(--text-sub);
+  border: 1px solid var(--border-color);
+}
+
+.dashboard-container .btn-logout:hover {
+  background-color: #fee2e2;
+  color: var(--danger-color);
+  border-color: #fecaca;
+}
+
+/* メインレイアウト */
+.dashboard-container .container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 1.5rem;
+}
+
+.dashboard-container .card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid var(--border-color);
+}
+
+.dashboard-container .card-title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-container .card-title-sub {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+/* サマリー（進行度） */
+.dashboard-container .summary-box {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+}
+
+.dashboard-container .summary-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-container .summary-progress-text {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.dashboard-container .progress-bar-bg {
+  background: rgba(255, 255, 255, 0.3);
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.dashboard-container .progress-bar-fill {
+  background: #4ade80;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* タスクリスト */
+.dashboard-container .task-list {
+  list-style: none;
+}
+
+.dashboard-container .task-item {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dashboard-container .task-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.dashboard-container .task-content {
+  flex: 1;
+}
+
+.dashboard-container .task-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dashboard-container .task-meta {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+.dashboard-container .badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.dashboard-container .badge-urgent {
+  background-color: #fee2e2;
+  color: var(--danger-color);
+}
+
+.dashboard-container .badge-warning {
+  background-color: #fef3c7;
+  color: var(--warning-color);
+}
+
+/* カレンダーUI */
+.dashboard-container .calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.dashboard-container .calendar-legend {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
+.dashboard-container .calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.dashboard-container .calendar-day-head {
+  font-weight: bold;
+  color: var(--text-sub);
+  padding-bottom: 4px;
+}
+
+.dashboard-container .head-sun { color: #ef4444; }
+.dashboard-container .head-sat { color: #2563eb; }
+
+.dashboard-container .calendar-day {
+  padding: 8px 2px;
+  background: #f8fafc;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  min-height: 42px;
+}
+
+.dashboard-container .calendar-day:hover {
+  background: #e2e8f0;
+}
+
+.dashboard-container .calendar-day.day-disabled {
+  opacity: 0.3;
+}
+
+.dashboard-container .calendar-day.today {
+  background: #dbeafe;
+  border: 1px solid var(--primary-color);
+  font-weight: bold;
+}
+
+.dashboard-container .has-event::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--danger-color);
+  border-radius: 50%;
+  margin: 2px auto 0;
+}
+
+.dashboard-container .alert-box {
+  margin-top: 15px;
+  background: #fff1f2;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #9f1239;
+}
+
+/* モーダル */
+.dashboard-container .modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.dashboard-container .modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 480px;
+}
+
+.dashboard-container .modal-title {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.dashboard-container .form-group {
+  margin-bottom: 1rem;
+}
+
+.dashboard-container .form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.dashboard-container .required-mark {
+  color: red;
+}
+
+.dashboard-container .form-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.dashboard-container .form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.dashboard-container .form-row .form-group {
+  flex: 1;
+}
+
+.dashboard-container .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .dashboard-container .container {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-container header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .dashboard-container .header-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}

@@ -1,1 +1,185 @@
-今日は
+<div class="dashboard-container">
+  <!-- ヘッダー -->
+  <header>
+    <div class="logo">TaskNavi</div>
+    <div class="header-right">
+      <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
+      <%= link_to "カレンダー表示", "#", class: "btn btn-secondary" %>
+      <button class="btn btn-primary" onclick="openModal()">＋ 予定・締め切りを追加</button>
+      <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="container">
+    <!-- 左側：タスクエリア -->
+    <main>
+      <!-- サマリー（進行度メーター） -->
+      <section class="card summary-box">
+        <div class="summary-text" id="summary-remaining">今日やるべきこと：計算中...</div>
+        <p class="summary-progress-text" id="summary-progress-text">本日の進行度 (0/0 完了)</p>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+      </section>
+
+      <!-- 今日やるタスク -->
+      <section class="card">
+        <h2 class="card-title">
+          <span>今日やるタスク</span>
+          <span class="card-title-sub">本日：<%= Time.current.strftime("%Y年%m月%d日") %></span>
+        </h2>
+        <ul class="task-list" id="today-task-list">
+          <li class="task-item">
+            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+            <div class="task-content">
+              <div class="task-title">【仕事】企画書の最終チェック・提出</div>
+              <div class="task-meta">17:00まで / 締め切り本日</div>
+            </div>
+            <span class="badge badge-urgent">本日締切</span>
+          </li>
+          <li class="task-item">
+            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+            <div class="task-content">
+              <div class="task-title">【プライベート】歯医者の予約</div>
+              <div class="task-meta">19:00〜19:30</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- もうすぐ締め切り -->
+      <section class="card">
+        <h2 class="card-title">もうすぐ締め切り（直近3日間）</h2>
+        <ul class="task-list">
+          <li class="task-item">
+            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+            <div class="task-content">
+              <div class="task-title">【仕事】週次報告書の作成</div>
+              <div class="task-meta">9月10日(木) 12:00まで</div>
+            </div>
+            <span class="badge badge-warning">あと2日</span>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- 右側：簡易カレンダー＆警告メッセージ -->
+    <aside>
+      <section class="card">
+        <div class="calendar-header">
+          <span>2026年 9月</span>
+          <span class="calendar-legend">● 予定あり</span>
+        </div>
+
+        <div class="calendar-grid">
+          <div class="calendar-day-head head-sun">日</div>
+          <div class="calendar-day-head">月</div>
+          <div class="calendar-day-head">火</div>
+          <div class="calendar-day-head">水</div>
+          <div class="calendar-day-head">木</div>
+          <div class="calendar-day-head">金</div>
+          <div class="calendar-day-head head-sat">土</div>
+
+          <div class="calendar-day day-disabled">30</div>
+          <div class="calendar-day day-disabled">31</div>
+          <div class="calendar-day">1</div>
+          <div class="calendar-day">2</div>
+          <div class="calendar-day">3</div>
+          <div class="calendar-day">4</div>
+          <div class="calendar-day">5</div>
+          <div class="calendar-day">6</div>
+          <div class="calendar-day">7</div>
+          <div class="calendar-day today has-event" title="予定重なり注意">8</div>
+          <div class="calendar-day">9</div>
+          <div class="calendar-day has-event" title="締め切りあり">10</div>
+          <div class="calendar-day">11</div>
+          <div class="calendar-day">12</div>
+        </div>
+
+        <div class="alert-box">
+          ⚠️ <strong>9月8日の注意点:</strong><br>17:00締切のタスクと19:00の予定が近く、時間が圧迫されています。
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <!-- タスク追加モーダル -->
+  <div class="modal" id="taskModal">
+    <div class="modal-content">
+      <h3 class="modal-title">＋ 予定・締め切りを追加</h3>
+      
+      <form id="addTaskForm" onsubmit="handleAddTask(event)">
+        <div class="form-group">
+          <label class="form-label">内容・件名 <span class="required-mark">*</span></label>
+          <input type="text" id="inputTitle" class="form-input" placeholder="例：【仕事】企画書の提出、歯医者など" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">種別</label>
+          <select id="inputType" class="form-input">
+            <option value="deadline">🔴 締め切りタスク（いつまでにやるか）</option>
+            <option value="schedule">🔵 予定・約束（特定の時間）</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">日付 <span class="required-mark">*</span></label>
+            <input type="date" id="inputDate" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">時刻</label>
+            <input type="time" id="inputTime" class="form-input">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">キャンセル</button>
+          <button type="submit" class="btn btn-primary">登録する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function updateProgress() {
+      const todayList = document.getElementById('today-task-list');
+      if (!todayList) return;
+
+      const checkboxes = todayList.querySelectorAll('.task-checkbox');
+      const total = checkboxes.length;
+      let checkedCount = 0;
+
+      checkboxes.forEach(cb => {
+        if (cb.checked) checkedCount++;
+      });
+
+      const remaining = total - checkedCount;
+      const percent = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
+
+      document.getElementById('summary-remaining').textContent = `今日やるべきこと：あと ${remaining} 件`;
+      document.getElementById('summary-progress-text').textContent = `本日の進行度 (${checkedCount}/${total} 完了)`;
+      document.getElementById('progress-bar-fill').style.width = `${percent}%`;
+    }
+
+    function toggleTask(checkbox) {
+      const taskTitle = checkbox.nextElementSibling.querySelector('.task-title');
+      if (checkbox.checked) {
+        taskTitle.style.textDecoration = 'line-through';
+        taskTitle.style.color = '#94a3b8';
+      } else {
+        taskTitle.style.textDecoration = 'none';
+        taskTitle.style.color = '#1e293b';
+      }
+      updateProgress();
+    }
+
+    function openModal() { document.getElementById('taskModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
+
+    document.addEventListener('turbo:load', updateProgress);
+    document.addEventListener('DOMContentLoaded', updateProgress);
+  </script>
+</div>

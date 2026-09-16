@@ -1,0 +1,220 @@
+/* ==========================================
+   TaskNavi 認証（ログイン・新規登録）専用スタイル
+   ========================================== */
+
+.auth-container {
+  --primary-color: #2563eb;
+  --danger-color: #dc2626;
+  --warning-color: #d97706;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-color: #1e293b;
+  --text-sub: #64748b;
+  --border-color: #e2e8f0;
+}
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.auth-container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ヘッダー */
+.auth-container header {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth-container .logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* ボタン共通 */
+.auth-container .btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.auth-container .btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.auth-container .btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.auth-container .btn-block {
+  width: 100%;
+}
+
+/* フォームカード */
+.auth-container .auth-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1.5rem;
+  flex: 1;
+}
+
+.auth-container .auth-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-container .auth-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.auth-container .auth-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-sub);
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+/* 入力フォームグループ */
+.auth-container .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.auth-container .form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  color: var(--text-color);
+}
+
+.auth-container .form-input {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.auth-container .form-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.auth-container .form-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.auth-container .form-checkbox {
+  cursor: pointer;
+}
+
+.auth-container .checkbox-label {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  cursor: pointer;
+}
+
+.auth-container .auth-footer-links {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.auth-container .auth-link {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.auth-container .auth-link:hover {
+  text-decoration: underline;
+}
+
+/* フッター */
+.auth-container .footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+}
+
+/* --- 新規登録ページ用の追加CSS --- */
+
+/* パスワード文字数のヒント表示 */
+.auth-container .label-with-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0.4rem;
+}
+
+.auth-container .label-with-hint .form-label {
+  margin-bottom: 0;
+}
+
+.auth-container .form-hint {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+}
+
+/* Deviseのエラーメッセージ装飾 */
+.auth-container #error_explanation {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--danger-color);
+  font-size: 0.85rem;
+}
+
+.auth-container #error_explanation h2 {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.auth-container #error_explanation ul {
+  list-style-position: inside;
+  padding-left: 0.5rem;
+}
