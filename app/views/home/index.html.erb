@@ -1,9 +1,58 @@
-<div>
-  <h1>TaskNavi</h1>
+<div class="landing-container">
+  <!-- ヘッダー -->
+  <header>
+    <div class="logo">TaskNavi</div>
+    <div class="auth-links">
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-secondary" %>
+      <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary" %>
+    </div>
+  </header>
 
-  <p>予定とタスクをまとめて管理しよう</p>
+  <!-- ヒーローセクション -->
+  <main class="hero-section">
+    <div class="hero-badge">タスク & スケジュール統合ツール</div>
+    <h1 class="hero-title">
+      予定とタスクを、<br>まとめてスマートに管理しよう
+    </h1>
+    <p class="hero-description">
+      TaskNavi は日々の「やるべきこと」と「スケジュール」を1つに集約。<br>
+      今日やるべき作業に迷わず集中できるシンプルなタスクナビゲーションです。
+    </p>
 
-  <%= link_to "新規登録", new_user_registration_path %>
-  <%= link_to "ログイン", new_user_session_path %>
-  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <div class="cta-group">
+      <%= link_to "無料ではじめる", new_user_registration_path, class: "btn btn-primary btn-large" %>
+      <%= link_to "アカウントをお持ちの方", new_user_session_path, class: "btn btn-secondary btn-large" %>
+    </div>
+
+    <!-- 特長 -->
+    <div class="features-grid">
+      <div class="card feature-card">
+        <div class="card-title">
+          <span>一括ビュー</span>
+          <span class="badge badge-urgent">時間短縮</span>
+        </div>
+        <p class="feature-text">カレンダーとToDoリストを同一画面で確認。予定の重複や漏れを自動でチェックします。</p>
+      </div>
+
+      <div class="card feature-card">
+        <div class="card-title">
+          <span>優先度の可視化</span>
+          <span class="badge badge-warning">集中力UP</span>
+        </div>
+        <p class="feature-text">「今日やるべきこと」がプログレスメーターで直感的にわかり、迷わず目の前のタスクに着手できます。</p>
+      </div>
+
+      <div class="card feature-card">
+        <div class="card-title">
+          <span>シンプルな統合</span>
+        </div>
+        <p class="feature-text">締め切りタスクと時間固定の予定をワンタップで追加・分類。シンプルな操作性を極めました。</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="footer">
+    &copy; <%= Time.current.year %> TaskNavi. All rights reserved.
+  </footer>
 </div>
