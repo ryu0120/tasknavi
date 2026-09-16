@@ -1,7 +1,7 @@
 <div class="landing-container">
   <!-- ヘッダー -->
   <header>
-    <div class="logo">TaskNavi</div>
+    <%= link_to "TaskNavi", root_path, class: "logo" %>
     <div class="auth-links">
       <%= link_to "ログイン", new_user_session_path, class: "btn btn-secondary" %>
       <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary" %>
