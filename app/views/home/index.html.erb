@@ -1,0 +1,9 @@
+<div>
+  <h1>TaskNavi</h1>
+
+  <p>予定とタスクをまとめて管理しよう</p>
+
+  <%= link_to "新規登録", new_user_registration_path %>
+  <%= link_to "ログイン", new_user_session_path %>
+  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+</div>
