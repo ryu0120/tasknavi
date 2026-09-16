@@ -11,6 +11,12 @@
       <h1 class="auth-title">ログイン</h1>
       <p class="auth-subtitle">TaskNavi アカウントにログイン</p>
 
+      <% if flash[:alert] %>
+        <div class="error-alert">
+          <p class="error-message"><%= flash[:alert] %></p>
+        </div>
+      <% end %>
+
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth-form" }) do |f| %>
         <div class="form-group">
           <%= f.label :email, "メールアドレス", class: "form-label" %>

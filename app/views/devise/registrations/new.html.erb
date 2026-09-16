@@ -12,7 +12,7 @@
       <p class="auth-subtitle">TaskNavi のアカウントを作成</p>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "auth-form" }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= render "shared/error_messages", model: f.object %>
 
         <div class="form-group">
           <%= f.label :nickname, "ニックネーム", class: "form-label" %>
