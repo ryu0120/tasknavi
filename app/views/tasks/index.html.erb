@@ -104,46 +104,79 @@
     </aside>
   </div>
 
-  <!-- タスク追加モーダル -->
+  <!-- タスク・予定追加モーダル（Rails Model 連携版） -->
   <div class="modal" id="taskModal">
     <div class="modal-content">
-      <h3 class="modal-title">＋ 予定・締め切りを追加</h3>
+      <h3 class="modal-title">＋ 予定・タスクを追加</h3>
       
-      <form id="addTaskForm" onsubmit="handleAddTask(event)">
+      <%= form_with model: @task, url: tasks_path, local: true, id: "addTaskForm" do |f| %>
+        <!-- status 初期値を todo で送信 -->
+        <%= f.hidden_field :status, value: "todo" %>
+
+        <!-- 1. 件名 / タイトル -->
         <div class="form-group">
-          <label class="form-label">内容・件名 <span class="required-mark">*</span></label>
-          <input type="text" id="inputTitle" class="form-input" placeholder="例：【仕事】企画書の提出、歯医者など" required>
+          <%= f.label :title, "内容・件名", class: "form-label" %>
+          <%= f.text_field :title, class: "form-input", placeholder: "例：【仕事】企画書の提出、歯医者など", required: true %>
         </div>
 
+        <!-- 2. 種別 (item_type) -->
         <div class="form-group">
-          <label class="form-label">種別</label>
-          <select id="inputType" class="form-input">
-            <option value="deadline">🔴 締め切りタスク（いつまでにやるか）</option>
-            <option value="schedule">🔵 予定・約束（特定の時間）</option>
-          </select>
+          <%= f.label :item_type, "種別", class: "form-label" %>
+          <%= f.select :item_type, 
+                [
+                  ['🔴 タスク（いつまでにやるか・締め切り）', 'task'], 
+                  ['🔵 予定・約束（開始時間〜終了時間）', 'schedule']
+                ], 
+                {}, 
+                { class: "form-input", id: "itemTypeSelect", onchange: "toggleFormFields()" } %>
         </div>
 
-        <div class="form-row">
+        <!-- 3-A. タスク用フィールド -->
+        <div id="taskFields">
           <div class="form-group">
-            <label class="form-label">日付 <span class="required-mark">*</span></label>
-            <input type="date" id="inputDate" class="form-input" required>
+            <%= f.label :due_date, "締め切り日時", class: "form-label" %>
+            <%= f.datetime_field :due_date, class: "form-input", id: "inputDueDate" %>
           </div>
+
           <div class="form-group">
-            <label class="form-label">時刻</label>
-            <input type="time" id="inputTime" class="form-input">
+            <%= f.label :priority, "優先度", class: "form-label" %>
+            <%= f.select :priority, 
+                  [
+                    ['高', 'high'], 
+                    ['中', 'medium'], 
+                    ['低', 'low']
+                  ], 
+                  { selected: 'medium' }, 
+                  { class: "form-input" } %>
           </div>
         </div>
 
+        <!-- 3-B. 予定用フィールド -->
+        <div id="scheduleFields" style="display: none;">
+          <div class="form-row">
+            <div class="form-group">
+              <%= f.label :start_time, "開始日時", class: "form-label" %>
+              <%= f.datetime_field :start_time, class: "form-input", id: "inputStartTime" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :end_time, "終了日時", class: "form-label" %>
+              <%= f.datetime_field :end_time, class: "form-input", id: "inputEndTime" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- アクションボタン -->
         <div class="modal-actions">
           <button type="button" class="btn btn-secondary" onclick="closeModal()">キャンセル</button>
-          <button type="submit" class="btn btn-primary">登録する</button>
+          <%= f.submit "登録する", class: "btn btn-primary" %>
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 
   <!-- JavaScript -->
   <script>
+    // 1. 進行度メーターの計算機能
     function updateProgress() {
       const todayList = document.getElementById('today-task-list');
       if (!todayList) return;
@@ -164,6 +197,7 @@
       document.getElementById('progress-bar-fill').style.width = `${percent}%`;
     }
 
+    // 2. チェックボックス切り替え時の打ち消し線処理
     function toggleTask(checkbox) {
       const taskTitle = checkbox.nextElementSibling.querySelector('.task-title');
       if (checkbox.checked) {
@@ -176,9 +210,56 @@
       updateProgress();
     }
 
-    function openModal() { document.getElementById('taskModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
+    // 3. 種別（タスク／予定）に応じた入力フィールドの動的切り替え
+    function toggleFormFields() {
+      const itemTypeSelect = document.getElementById('itemTypeSelect');
+      if (!itemTypeSelect) return;
 
+      const itemType = itemTypeSelect.value;
+      const taskFields = document.getElementById('taskFields');
+      const scheduleFields = document.getElementById('scheduleFields');
+
+      const dueDateInput = document.getElementById('inputDueDate');
+      const startTimeInput = document.getElementById('inputStartTime');
+
+      if (itemType === 'task') {
+        if (taskFields) taskFields.style.display = 'block';
+        if (scheduleFields) scheduleFields.style.display = 'none';
+        if (dueDateInput) dueDateInput.required = true;
+        if (startTimeInput) startTimeInput.required = false;
+      } else {
+        if (taskFields) taskFields.style.display = 'none';
+        if (scheduleFields) scheduleFields.style.display = 'block';
+        if (dueDateInput) dueDateInput.required = false;
+        if (startTimeInput) startTimeInput.required = true;
+      }
+    }
+
+    // 4. モーダルの開閉制御
+    function openModal() { 
+      const modal = document.getElementById('taskModal');
+      if (modal) {
+        modal.style.display = 'flex'; 
+        toggleFormFields();
+      }
+    }
+    
+    function closeModal() { 
+      const modal = document.getElementById('taskModal');
+      if (modal) {
+        modal.style.display = 'none'; 
+      }
+    }
+
+    // 背景モーダル部分クリックで閉じる
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('taskModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // 画面読み込み時の初期化
     document.addEventListener('turbo:load', updateProgress);
     document.addEventListener('DOMContentLoaded', updateProgress);
   </script>
