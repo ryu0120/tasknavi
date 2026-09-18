@@ -10,7 +10,7 @@ class Task < ApplicationRecord
   validates :item_type, presence: true
   validates :status, presence: true
 
-  # タスクの場合のみ締め切りを必須
+  # タスクの場合のみ締め切り・優先度を必須
   validates :due_date, presence: true, if: :task?
   validates :priority, presence: true, if: :task?
   # 予定の場合のみ開始・終了時刻を必須
