@@ -5,7 +5,7 @@
     <div class="header-right">
       <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
       <%= link_to "カレンダー表示", "#", class: "btn btn-secondary" %>
-      <button class="btn btn-primary" onclick="openModal()">＋ 予定・締め切りを追加</button>
+      <button class="btn btn-primary" id="openModalButton">＋ 予定・締め切りを追加</button>
       <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>
     </div>
   </header>
@@ -121,25 +121,25 @@
 
         <!-- 2. 種別 (item_type) -->
         <div class="form-group">
-          <%= f.label :item_type, "種別", class: "form-label" %>
+          <%= f.label :item_type, "種別", class: "form-label", for: "itemTypeSelect" %>
           <%= f.select :item_type, 
                 [
                   ['🔴 タスク（いつまでにやるか・締め切り）', 'task'], 
                   ['🔵 予定・約束（開始時間〜終了時間）', 'schedule']
                 ], 
                 {}, 
-                { class: "form-input", id: "itemTypeSelect", onchange: "toggleFormFields()" } %>
+                { class: "form-input", id: "itemTypeSelect" } %>
         </div>
 
         <!-- 3-A. タスク用フィールド -->
         <div id="taskFields">
           <div class="form-group">
-            <%= f.label :due_date, "締め切り日時", class: "form-label" %>
+            <%= f.label :due_date, "締め切り日時", class: "form-label", for: "inputDueDate" %>
             <%= f.datetime_field :due_date, class: "form-input", id: "inputDueDate" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :priority, "優先度", class: "form-label" %>
+            <%= f.label :priority, "優先度", class: "form-label", for: "inputPriority" %>
             <%= f.select :priority, 
                   [
                     ['高', 'high'], 
@@ -147,7 +147,7 @@
                     ['低', 'low']
                   ], 
                   { selected: 'medium' }, 
-                  { class: "form-input" } %>
+                  { class: "form-input", id: "inputPriority" } %>
           </div>
         </div>
 
@@ -155,11 +155,11 @@
         <div id="scheduleFields" style="display: none;">
           <div class="form-row">
             <div class="form-group">
-              <%= f.label :start_time, "開始日時", class: "form-label" %>
+              <%= f.label :start_time, "開始日時", class: "form-label", for: "inputStartTime"  %>
               <%= f.datetime_field :start_time, class: "form-input", id: "inputStartTime" %>
             </div>
             <div class="form-group">
-              <%= f.label :end_time, "終了日時", class: "form-label" %>
+              <%= f.label :end_time, "終了日時", class: "form-label", for: "inputEndTime" %>
               <%= f.datetime_field :end_time, class: "form-input", id: "inputEndTime" %>
             </div>
           </div>
@@ -167,7 +167,7 @@
 
         <!-- アクションボタン -->
         <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" onclick="closeModal()">キャンセル</button>
+          <button type="button" class="btn btn-secondary" id="closeModalButton" >キャンセル</button>
           <%= f.submit "登録する", class: "btn btn-primary" %>
         </div>
       <% end %>
@@ -210,54 +210,7 @@
       updateProgress();
     }
 
-    // 3. 種別（タスク／予定）に応じた入力フィールドの動的切り替え
-    function toggleFormFields() {
-      const itemTypeSelect = document.getElementById('itemTypeSelect');
-      if (!itemTypeSelect) return;
-
-      const itemType = itemTypeSelect.value;
-      const taskFields = document.getElementById('taskFields');
-      const scheduleFields = document.getElementById('scheduleFields');
-
-      const dueDateInput = document.getElementById('inputDueDate');
-      const startTimeInput = document.getElementById('inputStartTime');
-
-      if (itemType === 'task') {
-        if (taskFields) taskFields.style.display = 'block';
-        if (scheduleFields) scheduleFields.style.display = 'none';
-        if (dueDateInput) dueDateInput.required = true;
-        if (startTimeInput) startTimeInput.required = false;
-      } else {
-        if (taskFields) taskFields.style.display = 'none';
-        if (scheduleFields) scheduleFields.style.display = 'block';
-        if (dueDateInput) dueDateInput.required = false;
-        if (startTimeInput) startTimeInput.required = true;
-      }
-    }
-
-    // 4. モーダルの開閉制御
-    function openModal() { 
-      const modal = document.getElementById('taskModal');
-      if (modal) {
-        modal.style.display = 'flex'; 
-        toggleFormFields();
-      }
-    }
     
-    function closeModal() { 
-      const modal = document.getElementById('taskModal');
-      if (modal) {
-        modal.style.display = 'none'; 
-      }
-    }
-
-    // 背景モーダル部分クリックで閉じる
-    window.addEventListener('click', function(event) {
-      const modal = document.getElementById('taskModal');
-      if (event.target === modal) {
-        closeModal();
-      }
-    });
 
     // 画面読み込み時の初期化
     document.addEventListener('turbo:load', updateProgress);
