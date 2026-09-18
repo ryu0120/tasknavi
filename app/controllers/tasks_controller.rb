@@ -1,15 +1,15 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  def index
+  def today
     @task = Task.new
   end
 
   def create
     @task = Task.new(task_params)
     if @task.save
-      redirect_to tasks_path
+      redirect_to today_tasks_path
     else
-      render :index, status: :unprocessable_entity
+      render :today, status: :unprocessable_entity
     end
   end
 
