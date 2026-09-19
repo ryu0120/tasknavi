@@ -110,6 +110,7 @@
       <h3 class="modal-title">＋ 予定・タスクを追加</h3>
       
       <%= form_with model: @task, url: tasks_path, local: true, id: "addTaskForm" do |f| %>
+        <div id="jsTimeErrorMessage"></div>
         <!-- status 初期値を todo で送信 -->
         <%= f.hidden_field :status, value: "todo" %>
 

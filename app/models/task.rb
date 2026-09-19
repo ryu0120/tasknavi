@@ -16,4 +16,18 @@ class Task < ApplicationRecord
   # 予定の場合のみ開始・終了時刻を必須
   validates :start_time, presence: true, if: :schedule?
   validates :end_time, presence: true, if: :schedule?
+  validate :start_time_cannot_be_in_the_past, if: :schedule?
+  validate :end_time_after_start_time, if: :schedule?
+
+  def start_time_cannot_be_in_the_past
+    return if start_time.blank?
+
+    errors.add(:start_time) if start_time < Time.current
+  end
+
+  def end_time_after_start_time
+    return if start_time.blank? || end_time.blank?
+
+    errors.add(:end_time) if end_time <= start_time
+  end
 end

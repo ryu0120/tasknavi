@@ -406,3 +406,11 @@
     gap: 0;
   }
 }
+
+/* エラーメッセージ */
+#jsTimeErrorMessage {
+  margin-top: 8px;
+  color: #d64545;
+  font-size: 14px;
+  line-height: 1.5;
+}
