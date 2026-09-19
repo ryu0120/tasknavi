@@ -1,10 +1,13 @@
 // ボタン・セレクトにイベントを設定
 
-document.addEventListener('turbo:load', function() {
-
+function setupModalEvents() {
   const openModalButton = document.getElementById('openModalButton');
   const closeModalButton = document.getElementById('closeModalButton');
   const itemTypeSelect = document.getElementById('itemTypeSelect');
+  const form = document.getElementById('addTaskForm');
+  const startTimeInput = document.getElementById('inputStartTime');
+  const endTimeInput = document.getElementById('inputEndTime');
+  const errorMessage = document.getElementById('jsTimeErrorMessage');
 
   if (openModalButton) {
     openModalButton.addEventListener('click', openModal);
@@ -18,8 +21,35 @@ document.addEventListener('turbo:load', function() {
     itemTypeSelect.addEventListener('change', toggleFormFields);
   }
 
-});
+  if (form) {
+  form.addEventListener('submit', function(event) {
+    errorMessage.textContent = '';
 
+      if (itemTypeSelect.value === 'schedule') {
+        const startTime = new Date(startTimeInput.value);
+        const now = new Date();
+        const endTime = new Date(endTimeInput.value);
+
+      if (startTime < now) {
+        event.preventDefault();
+        errorMessage.textContent = '開始日時は現在より後にしてください';
+        return;
+      }
+
+      if (endTime <= startTime) {
+        event.preventDefault();
+        errorMessage.textContent = '終了日時は開始日時より後にしてください';
+        return;
+      }
+
+      }
+
+  });
+}
+}
+
+document.addEventListener('turbo:load', setupModalEvents);
+document.addEventListener('turbo:render', setupModalEvents);
 
 //  モーダルの開閉制御
 
