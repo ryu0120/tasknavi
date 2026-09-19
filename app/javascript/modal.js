@@ -73,8 +73,12 @@ function toggleFormFields() {
     if (scheduleFields) scheduleFields.style.display = 'none';
 
     if (dueDateInput) dueDateInput.required = true;
+    if (dueDateInput) dueDateInput.disabled = false;
     if (startTimeInput) startTimeInput.required = false;
+    if (startTimeInput) startTimeInput.disabled = true;
     if (endTimeInput) endTimeInput.required = false;
+    if (endTimeInput) endTimeInput.disabled = true;
+    if (priorityInput) priorityInput.required = true;
     if (priorityInput) priorityInput.disabled = false;
   } else {
 
@@ -82,8 +86,12 @@ function toggleFormFields() {
     if (scheduleFields) scheduleFields.style.display = 'block';
 
     if (dueDateInput) dueDateInput.required = false;
+    if (dueDateInput) dueDateInput.disabled = true;
     if (startTimeInput) startTimeInput.required = true;
+    if (startTimeInput) startTimeInput.disabled = false;
     if (endTimeInput) endTimeInput.required = true;
+    if (endTimeInput) endTimeInput.disabled = false;
+    if (priorityInput) priorityInput.required = false;
     if (priorityInput) priorityInput.disabled = true;
   }
 }
