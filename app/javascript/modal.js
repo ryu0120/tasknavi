@@ -5,6 +5,7 @@ function setupModalEvents() {
   const closeModalButton = document.getElementById('closeModalButton');
   const itemTypeSelect = document.getElementById('itemTypeSelect');
   const form = document.getElementById('addTaskForm');
+  const dueDateInput = document.getElementById('inputDueDate');
   const startTimeInput = document.getElementById('inputStartTime');
   const endTimeInput = document.getElementById('inputEndTime');
   const errorMessage = document.getElementById('jsTimeErrorMessage');
@@ -24,6 +25,17 @@ function setupModalEvents() {
   if (form) {
   form.addEventListener('submit', function(event) {
     errorMessage.textContent = '';
+
+      if (itemTypeSelect.value === 'task') {
+      const dueDate = new Date(dueDateInput.value);
+      const now = new Date();
+
+      if (dueDate < now) {
+        event.preventDefault();
+        errorMessage.textContent = '締め切り日時は現在より後にしてください';
+        return;
+      }
+      }
 
       if (itemTypeSelect.value === 'schedule') {
         const startTime = new Date(startTimeInput.value);
