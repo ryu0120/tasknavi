@@ -11,58 +11,124 @@
   </header>
 
   <!-- メインコンテンツ -->
-  <div class="container">
-    <!-- 左側：タスクエリア -->
-    <main>
-      <!-- サマリー（進行度メーター） -->
-      <section class="card summary-box">
-        <div class="summary-text" id="summary-remaining">今日やるべきこと：計算中...</div>
-        <p class="summary-progress-text" id="summary-progress-text">本日の進行度 (0/0 完了)</p>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progress-bar-fill"></div>
-        </div>
-      </section>
 
-      <!-- 今日やるタスク -->
-      <section class="card">
-        <h2 class="card-title">
-          <span>今日やるタスク</span>
-          <span class="card-title-sub">本日：<%= Time.current.strftime("%Y年%m月%d日") %></span>
-        </h2>
-        <ul class="task-list" id="today-task-list">
+<div class="container">
+
+  <!-- 左側：タスクエリア -->
+
+  <main>
+
+    <!-- サマリー（進行度メーター） -->
+
+    <section class="card summary-box">
+
+      <div class="summary-text" id="summary-remaining">今日やるべきこと：計算中...</div>
+
+      <p class="summary-progress-text" id="summary-progress-text">本日の進行度 (0/0 完了)</p>
+
+      <div class="progress-bar-bg">
+
+        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+
+      </div>
+
+    </section>
+
+    <!-- 今日やるタスク -->
+
+    <section class="card">
+
+      <h2 class="card-title">
+
+        <span>今日やるタスク</span>
+
+        <span class="card-title-sub">本日：<%= Time.current.strftime("%Y年%m月%d日") %></span>
+
+      </h2>
+
+      <ul class="task-list" id="today-task-list">
+
+        <% @today_tasks.each do |task| %>
+
           <li class="task-item">
+
             <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+
             <div class="task-content">
-              <div class="task-title">【仕事】企画書の最終チェック・提出</div>
-              <div class="task-meta">17:00まで / 締め切り本日</div>
+
+              <div class="task-title"><%= task.title %></div>
+
+              <div class="task-meta">
+                <%= task.due_date.strftime("%H:%M") %>まで / 締め切り本日
+              </div>
+
             </div>
+
             <span class="badge badge-urgent">本日締切</span>
-          </li>
-          <li class="task-item">
-            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-            <div class="task-content">
-              <div class="task-title">【プライベート】歯医者の予約</div>
-              <div class="task-meta">19:00〜19:30</div>
-            </div>
-          </li>
-        </ul>
-      </section>
 
-      <!-- もうすぐ締め切り -->
-      <section class="card">
-        <h2 class="card-title">もうすぐ締め切り（直近3日間）</h2>
-        <ul class="task-list">
-          <li class="task-item">
-            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
-            <div class="task-content">
-              <div class="task-title">【仕事】週次報告書の作成</div>
-              <div class="task-meta">9月10日(木) 12:00まで</div>
-            </div>
-            <span class="badge badge-warning">あと2日</span>
           </li>
-        </ul>
-      </section>
-    </main>
+
+        <% end %>
+
+        <% @today_schedules.each do |schedule| %>
+
+          <li class="task-item">
+
+            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+
+            <div class="task-content">
+
+              <div class="task-title"><%= schedule.title %></div>
+
+              <div class="task-meta">
+                <%= schedule.start_time.strftime("%H:%M") %>〜<%= schedule.end_time.strftime("%H:%M") %>
+              </div>
+
+            </div>
+
+          </li>
+
+        <% end %>
+
+      </ul>
+
+    </section>
+
+    <!-- もうすぐ締め切り -->
+
+    <section class="card">
+
+      <h2 class="card-title">もうすぐ締め切り（直近3日間）</h2>
+
+      <ul class="task-list">
+
+        <% @upcoming_tasks.each do |task| %>
+
+          <li class="task-item">
+
+            <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+
+            <div class="task-content">
+
+              <div class="task-title"><%= task.title %></div>
+
+              <div class="task-meta">
+                <%= task.due_date.strftime("%m月%d日 %H:%M") %>まで
+              </div>
+
+            </div>
+
+            <span class="badge badge-warning">もうすぐ</span>
+
+          </li>
+
+        <% end %>
+
+      </ul>
+
+    </section>
+
+  </main>
 
     <!-- 右側：簡易カレンダー＆警告メッセージ -->
     <aside>
