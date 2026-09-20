@@ -1,9 +1,6 @@
+    // チェックボックスのイベントを設定
     function setupTaskEvents() {
-    const todayList = document.getElementById('today-task-list');
-
-    if (!todayList) return;
-
-    const checkboxes = todayList.querySelectorAll('.task-checkbox');
+    const checkboxes = document.querySelectorAll('.task-checkbox');
 
     checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
@@ -11,7 +8,7 @@
         });
       });
     }
-    // 1. 進行度メーターの計算機能
+    // 進行度メーターを計算して画面に反映する
     function updateProgress() {
       const todayList = document.getElementById('today-task-list');
       if (!todayList) return;
@@ -32,8 +29,21 @@
       document.getElementById('progress-bar-fill').style.width = `${percent}%`;
     }
 
-    // 2. チェックボックス切り替え時の打ち消し線処理
+    // チェックボックスの状態に応じてタスクの見た目を変更
     function toggleTask(checkbox) {
+      const taskId = checkbox.dataset.taskId;
+      const status = checkbox.checked ? 'done' : 'todo';
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+      fetch(`/tasks/${taskId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': token
+      },
+      body: JSON.stringify({
+        status: status
+        })
+      });
       const taskTitle = checkbox.nextElementSibling.querySelector('.task-title');
       if (checkbox.checked) {
         taskTitle.style.textDecoration = 'line-through';
@@ -47,10 +57,8 @@
 
     
 
-    // 画面読み込み時の初期化
+    // Turboでページが読み込まれたときに初期化処理を実行
     document.addEventListener('turbo:load', updateProgress);
     document.addEventListener('turbo:load', setupTaskEvents);
 
-    document.addEventListener('DOMContentLoaded', updateProgress);
-    document.addEventListener('DOMContentLoaded', setupTaskEvents);
-  
+   
