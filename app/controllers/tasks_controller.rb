@@ -32,6 +32,11 @@ class TasksController < ApplicationController
     end
   end
 
+  def update
+    @task = Task.find(params[:id])
+    @task.update(status: params[:status])
+  end
+
   private
 
   def task_params
