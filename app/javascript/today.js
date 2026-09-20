@@ -55,10 +55,25 @@
       updateProgress();
     }
 
+    // ページ読み込み時にチェック済みのタスクへ線引きを反映する
+    function setupTaskStyles() {
+      const checkboxes = document.querySelectorAll('.task-checkbox');
+
+      checkboxes.forEach(checkbox => {
+        const taskTitle = checkbox.nextElementSibling.querySelector('.task-title');
+
+        if (checkbox.checked) {
+          taskTitle.style.textDecoration = 'line-through';
+          taskTitle.style.color = '#94a3b8';
+        }
+      });
+    }
+
     
 
     // Turboでページが読み込まれたときに初期化処理を実行
-    document.addEventListener('turbo:load', updateProgress);
     document.addEventListener('turbo:load', setupTaskEvents);
-
+    document.addEventListener('turbo:load', updateProgress);
+    document.addEventListener('turbo:load', setupTaskStyles);
+    
    
