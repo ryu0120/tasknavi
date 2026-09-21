@@ -12,12 +12,14 @@ class Task < ApplicationRecord
 
   # タスクの場合のみ締め切り・優先度を必須
   validates :due_date, presence: true, if: :task?
-  validate  :due_date_cannot_be_in_the_past, if: :task?
+  validate :due_date_cannot_be_in_the_past,
+           if: -> { task? && will_save_change_to_due_date? }
   validates :priority, presence: true, if: :task?
   # 予定の場合のみ開始・終了時刻を必須
   validates :start_time, presence: true, if: :schedule?
   validates :end_time, presence: true, if: :schedule?
-  validate :start_time_cannot_be_in_the_past, if: :schedule?
+  validate :start_time_cannot_be_in_the_past,
+           if: -> { schedule? && will_save_change_to_start_time? }
   validate :end_time_after_start_time, if: :schedule?
 
   def due_date_cannot_be_in_the_past
