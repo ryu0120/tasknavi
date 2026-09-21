@@ -42,7 +42,9 @@
           'X-CSRF-Token': token
         },
         body: JSON.stringify({
-          status: status
+          task: {
+            status: status
+          }
         })
       });
 

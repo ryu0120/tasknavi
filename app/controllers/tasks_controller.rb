@@ -34,7 +34,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.update(status: params[:status])
+    @task.update(update_task_params)
   end
 
   private
@@ -42,5 +42,10 @@ class TasksController < ApplicationController
   def task_params
     params.require(:task).permit(:title, :item_type, :status, :due_date, :priority, :start_time,
                                  :end_time).merge(user_id: current_user.id)
+  end
+
+  def update_task_params
+    params.require(:task).permit(:title, :item_type, :status, :due_date, :priority, :start_time,
+                                 :end_time)
   end
 end
