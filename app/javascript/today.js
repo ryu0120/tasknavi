@@ -30,29 +30,37 @@
     }
 
     // チェックボックスの状態に応じてタスクの見た目を変更
-    function toggleTask(checkbox) {
+    async function toggleTask(checkbox) {
       const taskId = checkbox.dataset.taskId;
       const status = checkbox.checked ? 'done' : 'todo';
       const token = document.querySelector('meta[name="csrf-token"]').content;
-      fetch(`/tasks/${taskId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': token
-      },
-      body: JSON.stringify({
-        status: status
+
+      const response = await fetch(`/tasks/${taskId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': token
+        },
+        body: JSON.stringify({
+          status: status
         })
       });
-      const taskTitle = checkbox.nextElementSibling.querySelector('.task-title');
-      if (checkbox.checked) {
-        taskTitle.style.textDecoration = 'line-through';
-        taskTitle.style.color = '#94a3b8';
+
+      if (response.ok) {
+        const taskTitle = checkbox.nextElementSibling.querySelector('.task-title');
+
+        if (checkbox.checked) {
+          taskTitle.style.textDecoration = 'line-through';
+          taskTitle.style.color = '#94a3b8';
+        } else {
+          taskTitle.style.textDecoration = 'none';
+          taskTitle.style.color = '#1e293b';
+        }
+
+        updateProgress();
       } else {
-        taskTitle.style.textDecoration = 'none';
-        taskTitle.style.color = '#1e293b';
+        checkbox.checked = !checkbox.checked;
       }
-      updateProgress();
     }
 
     // ページ読み込み時にチェック済みのタスクへ線引きを反映する
