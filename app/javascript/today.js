@@ -9,9 +9,15 @@
       });
     }
     // 進行度メーターを計算して画面に反映する
+   
     function updateProgress() {
       const todayList = document.getElementById('today-task-list');
-      if (!todayList) return;
+      const summaryRemaining = document.getElementById('summary-remaining');
+      const summaryProgressText = document.getElementById('summary-progress-text');
+      const progressBarFill = document.getElementById('progress-bar-fill');
+
+      // 本日のタスクリスト、またはサマリー要素が存在しない画面（indexページなど）では何もしない
+      if (!todayList || !summaryRemaining || !summaryProgressText || !progressBarFill) return;
 
       const checkboxes = todayList.querySelectorAll('.task-checkbox');
       const total = checkboxes.length;
@@ -24,9 +30,9 @@
       const remaining = total - checkedCount;
       const percent = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
 
-      document.getElementById('summary-remaining').textContent = `今日やるべきこと：あと ${remaining} 件`;
-      document.getElementById('summary-progress-text').textContent = `本日の進行度 (${checkedCount}/${total} 完了)`;
-      document.getElementById('progress-bar-fill').style.width = `${percent}%`;
+      summaryRemaining.textContent = `今日やるべきこと：あと ${remaining} 件`;
+      summaryProgressText.textContent = `本日の進行度 (${checkedCount}/${total} 完了)`;
+      progressBarFill.style.width = `${percent}%`;
     }
 
     // チェックボックスの状態に応じてタスクの見た目を変更

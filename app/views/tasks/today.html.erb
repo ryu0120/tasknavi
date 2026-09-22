@@ -4,6 +4,8 @@
     <div class="logo">TaskNavi</div>
     <div class="header-right">
       <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
+      <!-- ★ 追加：一覧ページへの動線ボタン -->
+      <%= link_to "タスク・予定一覧", tasks_path, class: "btn btn-secondary" %>
       <%= link_to "カレンダー表示", "#", class: "btn btn-secondary" %>
       <button class="btn btn-primary" id="openModalButton">＋ 予定・締め切りを追加</button>
       <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>

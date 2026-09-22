@@ -26,6 +26,14 @@ class TasksController < ApplicationController
     set_calendar_data
   end
 
+  def index
+    # 1. 全タスク（締め切りが近い順）
+    @tasks = current_user.tasks.where(item_type: :task).order(due_date: :asc)
+
+    # 2. 全予定（開始日時が近い順）
+    @schedules = current_user.tasks.where(item_type: :schedule).order(start_time: :asc)
+  end
+
   def create
     @task = Task.new(task_params)
     if @task.save

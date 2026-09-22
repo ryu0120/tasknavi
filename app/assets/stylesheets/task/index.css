@@ -1,0 +1,37 @@
+/* ==========================================
+   予定・タスク一覧画面（2カラム均等レイアウト）
+   ========================================== */
+
+/* 一覧画面専用：Gridを1対1の均等配置に変更 */
+.dashboard-container .index-container {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* 一覧画面用のカード（縦長になっても破綻しない設定） */
+.dashboard-container .index-column {
+  margin-bottom: 0;
+  min-width: 0; /* 文字あふれガード */
+}
+
+/* 優先度バッジの追加スタイル */
+.dashboard-container .badge-high {
+  background-color: #fee2e2;
+  color: var(--danger-color);
+}
+
+.dashboard-container .badge-medium {
+  background-color: #fef3c7;
+  color: var(--warning-color);
+}
+
+.dashboard-container .badge-low {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+/* レスポンシブ調整（画面幅768px以下のスマホ表示） */
+@media (max-width: 768px) {
+  .dashboard-container .index-container {
+    grid-template-columns: 1fr;
+  }
+}
