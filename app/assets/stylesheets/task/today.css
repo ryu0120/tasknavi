@@ -286,6 +286,21 @@
   color: #9f1239;
 }
 
+.dashboard-container .calendar-nav-btn {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.dashboard-container .calendar-nav-btn:hover {
+  background-color: var(--border-color);
+}
+
 /* モーダル専用スタイル */
 .dashboard-container .modal {
   display: none;
