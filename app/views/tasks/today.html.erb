@@ -57,7 +57,7 @@
                 <div class="task-title"><%= task.title %></div>
 
                 <div class="task-meta">
-                  <%= task.due_date.strftime("%H:%M") %>まで / 締め切り本日
+                  <%= task.due_date&.strftime("%H:%M") %>まで / 締め切り本日
                 </div>
 
               </div>
@@ -79,7 +79,7 @@
                 <div class="task-title"><%= schedule.title %></div>
 
                 <div class="task-meta">
-                  <%= schedule.start_time.strftime("%H:%M") %>〜<%= schedule.end_time.strftime("%H:%M") %>
+                  <%= schedule.start_time&.strftime("%H:%M") %>〜<%= schedule.end_time&.strftime("%H:%M") %>
                 </div>
 
               </div>
@@ -111,7 +111,7 @@
                 <div class="task-title"><%= task.title %></div>
 
                 <div class="task-meta">
-                  <%= task.due_date.strftime("%m月%d日 %H:%M") %>まで
+                  <%= task.due_date&.strftime("%m月%d日 %H:%M") %>まで
                 </div>
 
               </div>
@@ -129,43 +129,50 @@
     </main>
 
       <!-- 右側：簡易カレンダー＆警告メッセージ -->
-      <aside>
-        <section class="card">
-          <div class="calendar-header">
-            <span>2026年 9月</span>
-            <span class="calendar-legend">● 予定あり</span>
-          </div>
+      
+        <aside>
+          <section class="card">
+            <div class="calendar-header">
+              <%= link_to "←", today_tasks_path(month: @target_date.prev_month.beginning_of_month), class: "calendar-nav-btn" %>
+              <span><%= @target_date.strftime("%Y年 %-m月") %></span>
+              <%= link_to "→", today_tasks_path(month: @target_date.next_month.beginning_of_month), class: "calendar-nav-btn" %>
+              <span class="calendar-legend">● 予定あり</span>
+            </div>
 
-          <div class="calendar-grid">
-            <div class="calendar-day-head head-sun">日</div>
-            <div class="calendar-day-head">月</div>
-            <div class="calendar-day-head">火</div>
-            <div class="calendar-day-head">水</div>
-            <div class="calendar-day-head">木</div>
-            <div class="calendar-day-head">金</div>
-            <div class="calendar-day-head head-sat">土</div>
+            <div class="calendar-grid">
+              <div class="calendar-day-head head-sun">日</div>
+              <div class="calendar-day-head">月</div>
+              <div class="calendar-day-head">火</div>
+              <div class="calendar-day-head">水</div>
+              <div class="calendar-day-head">木</div>
+              <div class="calendar-day-head">金</div>
+              <div class="calendar-day-head head-sat">土</div>
 
-            <div class="calendar-day day-disabled">30</div>
-            <div class="calendar-day day-disabled">31</div>
-            <div class="calendar-day">1</div>
-            <div class="calendar-day">2</div>
-            <div class="calendar-day">3</div>
-            <div class="calendar-day">4</div>
-            <div class="calendar-day">5</div>
-            <div class="calendar-day">6</div>
-            <div class="calendar-day">7</div>
-            <div class="calendar-day today has-event" title="予定重なり注意">8</div>
-            <div class="calendar-day">9</div>
-            <div class="calendar-day has-event" title="締め切りあり">10</div>
-            <div class="calendar-day">11</div>
-            <div class="calendar-day">12</div>
-          </div>
+              <% @calendar_days.each do |day| %>
+                <% 
+                  is_other_month = day.month != @target_date.month
+                  is_today = day == Date.today
+                  has_event = @event_dates.include?(day)
 
-          <div class="alert-box">
-            ⚠️ <strong>9月8日の注意点:</strong><br>17:00締切のタスクと19:00の予定が近く、時間が圧迫されています。
-          </div>
-        </section>
-      </aside>
+                  classes = ["calendar-day"]
+                  classes << "day-disabled" if is_other_month
+                  classes << "today" if is_today
+                  classes << "has-event" if has_event
+                %>
+
+                <div class="<%= classes.join(' ') %>" <% if has_event %>title="<%= day.strftime('%m/%d') %> 予定・締め切りあり"<% end %>>
+                  <%= day.day %>
+                </div>
+              <% end %>
+            </div>
+
+            <% if @alert_message.present? %>
+              <div class="alert-box">
+                ⚠️ <%= @alert_message %>
+              </div>
+            <% end %>
+          </section>
+        </aside>
     </div>
 
     <!-- タスク・予定追加モーダル（Rails Model 連携版） -->
