@@ -31,7 +31,7 @@
             <li class="task-item">
               <input type="checkbox" class="task-checkbox" data-task-id="<%= task.id %>" <%= "checked" if task.done? %>>
               <div class="task-content">
-                <div class="task-title"><%= task.title %></div>
+                <div class="task-title"><%= link_to task.title, task_path(task), class: "task-link" %></div>
                 <div class="task-meta">
                   締め切り: <%= task.due_date ? task.due_date.strftime("%Y/%m/%d %H:%M") : "未設定" %>
                 </div>
@@ -60,7 +60,7 @@
             <li class="task-item">
               <input type="checkbox" class="task-checkbox" data-task-id="<%= schedule.id %>" <%= "checked" if schedule.done? %>>
               <div class="task-content">
-                <div class="task-title"><%= schedule.title %></div>
+                <div class="task-title"><%= link_to schedule.title, task_path(schedule), class: "task-link" %></div>
                 <div class="task-meta">
                   日時: <%= schedule.start_time ? schedule.start_time.strftime("%Y/%m/%d %H:%M") : "未設定" %>
                   〜

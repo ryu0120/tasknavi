@@ -1,0 +1,100 @@
+<div class="dashboard-container">
+  <!-- ヘッダー -->
+  <header>
+    <div class="logo">TaskNavi</div>
+    <div class="header-right">
+      <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
+      <%= link_to "一覧に戻る", tasks_path, class: "btn btn-secondary" %>
+      <%= link_to "今日のタスク", today_tasks_path, class: "btn btn-secondary" %>
+      <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <div class="container show-container">
+    <section class="card schedule-detail-card">
+      
+      <!-- タイトル ＆ ヘッダー領域 -->
+      <div class="card-title show-header">
+        <span>
+          <% if @task.task? %>
+            🔴 <%= @task.title %>
+          <% else %>
+            🔵 <%= @task.title %>
+          <% end %>
+        </span>
+
+        <!-- タスクの場合のみ優先度バッジを表示 -->
+        <% if @task.task? && @task.priority.present? %>
+          <span class="badge badge-<%= @task.priority %>">
+            <%= @task.priority_i18n rescue @task.priority %>
+          </span>
+        <% end %>
+      </div>
+
+      <!-- 詳細情報エリア -->
+      <div class="detail-body">
+        
+        <!-- 種別（タスク or 予定） -->
+        <div class="detail-item">
+          <span class="detail-label">種別</span>
+          <span class="detail-value">
+            <%= @task.task? ? "タスク" : "予定" %>
+          </span>
+        </div>
+
+        <!-- ステータス（todo or done） -->
+        <div class="detail-item">
+          <span class="detail-label">ステータス</span>
+          <span class="detail-value">
+            <% if @task.done? %>
+              <span class="badge" style="background-color: #dcfce7; color: #166534;">完了</span>
+            <% else %>
+              <span class="badge" style="background-color: #f1f5f9; color: #475569;">未完了</span>
+            <% end %>
+          </span>
+        </div>
+
+        <!-- タスクの場合：締め切り日時を表示 -->
+        <% if @task.task? %>
+          <div class="detail-item">
+            <span class="detail-label">締め切り日時</span>
+            <span class="detail-value">
+              <%= @task.due_date ? @task.due_date.strftime("%Y/%m/%d %H:%M") : "未設定" %>
+            </span>
+          </div>
+        <% end %>
+
+        <!-- 予定の場合：開始・終了日時を表示 -->
+        <% if @task.schedule? %>
+          <div class="detail-item">
+            <span class="detail-label">日時</span>
+            <span class="detail-value">
+              <%= @task.start_time ? @task.start_time.strftime("%Y/%m/%d %H:%M") : "未設定" %>
+              〜
+              <%= @task.end_time ? @task.end_time.strftime("%H:%M") : "未設定" %>
+            </span>
+          </div>
+        <% end %>
+
+      </div>
+
+      <!-- アクションボタンエリア -->
+      <div class="detail-actions">
+        <!-- 編集ページ（edit.html.erb）へ遷移 -->
+        <%= link_to "編集する", edit_task_path(@task), class: "btn btn-primary" %>
+
+        <!-- その場で削除を実行 -->
+        <%= link_to "削除する", task_path(@task), 
+            data: { 
+              turbo_method: :delete, 
+              turbo_confirm: "本当に削除しますか？" 
+            }, 
+            class: "btn btn-danger" %>
+
+        <%= link_to "一覧に戻る", tasks_path, class: "btn btn-secondary" %>
+      </div>
+
+    </section>
+  </div>
+</div>

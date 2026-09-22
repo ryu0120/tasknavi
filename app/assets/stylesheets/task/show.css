@@ -1,0 +1,88 @@
+/* ==========================================
+   詳細画面（show） ＆ リンク専用スタイル
+   ========================================== */
+
+/* 一覧画面のタイトルリンク */
+.dashboard-container .task-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.dashboard-container .task-link:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* 詳細画面のレイアウト（中央寄せの強化） */
+.dashboard-container .show-container {
+  display: block !important;    /* Gridを上書きして1カラム化 */
+  max-width: 680px;            /* カードの最大幅 */
+  width: 90%;                  /* レスポンシブ用幅指定 */
+  margin: 3rem auto !important;/* 上下に余白を取り、左右自動で中央寄せ */
+}
+
+.dashboard-container .schedule-detail-card {
+  padding: 2rem;
+  margin: 0 auto;              /* カード自体も中央寄せ */
+}
+
+/* 詳細情報エリア */
+.dashboard-container .detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-container .detail-item {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-container .detail-label {
+  width: 120px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--text-sub);
+  flex-shrink: 0;
+}
+
+.dashboard-container .detail-value {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* 削除ボタン */
+.dashboard-container .btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.dashboard-container .btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+/* アクションボタン配置 */
+.dashboard-container .detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .dashboard-container .detail-actions {
+    flex-direction: column;
+  }
+  .dashboard-container .detail-actions .btn {
+    width: 100%;
+  }
+}

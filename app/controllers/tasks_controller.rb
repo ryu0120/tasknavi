@@ -34,6 +34,14 @@ class TasksController < ApplicationController
     @schedules = current_user.tasks.where(item_type: :schedule).order(start_time: :asc)
   end
 
+  def show
+    @task = current_user.tasks.find(params[:id])
+  end
+
+  def edit
+    @task = current_user.tasks.find(params[:id])
+  end
+
   def create
     @task = Task.new(task_params)
     if @task.save
@@ -53,8 +61,31 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task = Task.find(params[:id])
-    @task.update(update_task_params)
+    @task = current_user.tasks.find(params[:id])
+
+    if @task.update(task_params)
+      respond_to do |format|
+        # 1. index.html.erb / today.html.erb のチェックボックス（fetch非同期通信）
+        format.json { render json: { status: 'success', task: @task } }
+
+        # 2. edit.html.erb（編集フォームからの通常送信）
+        format.html { redirect_to task_path(@task), notice: '更新しました' }
+      end
+    else
+      respond_to do |format|
+        # 1. 非同期通信でエラー時（JS側の response.ok が false になりチェックが元に戻る）
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+
+        # 2. 編集フォームでバリデーションエラー時（編集画面を再描画）
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @task = current_user.tasks.find(params[:id])
+    @task.destroy
+    redirect_to tasks_path
   end
 
   private
