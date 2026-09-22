@@ -1,0 +1,79 @@
+<div class="dashboard-container">
+  <!-- ヘッダー -->
+  <header>
+    <div class="logo">TaskNavi</div>
+    <div class="header-right">
+      <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
+      
+      <!-- 今日の画面に戻る動線 -->
+      <%= link_to "今日のタスク", today_tasks_path, class: "btn btn-secondary" %>
+      <!-- 将来用のカレンダーボタン -->
+      <%= link_to "カレンダー表示", "#", class: "btn btn-secondary" %>
+      
+      
+      <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ（2カラムレイアウト） -->
+  <div class="container index-container">
+    
+    <!-- 左カラム：すべてのタスク -->
+    <section class="card index-column">
+      <h2 class="card-title">
+        <span>🔴 タスク一覧</span>
+        <span class="card-title-sub">全 <%= @tasks.count %> 件</span>
+      </h2>
+
+      <ul class="task-list">
+        <% if @tasks.any? %>
+          <% @tasks.each do |task| %>
+            <li class="task-item">
+              <input type="checkbox" class="task-checkbox" data-task-id="<%= task.id %>" <%= "checked" if task.done? %>>
+              <div class="task-content">
+                <div class="task-title"><%= task.title %></div>
+                <div class="task-meta">
+                  締め切り: <%= task.due_date ? task.due_date.strftime("%Y/%m/%d %H:%M") : "未設定" %>
+                </div>
+              </div>
+              <% if task.priority.present? %>
+                <span class="badge badge-<%= task.priority %>"><%= task.priority_i18n rescue task.priority %></span>
+              <% end %>
+            </li>
+          <% end %>
+        <% else %>
+          <li class="task-item-empty">登録されているタスクはありません</li>
+        <% end %>
+      </ul>
+    </section>
+
+    <!-- 右カラム：すべての予定 -->
+    <section class="card index-column">
+      <h2 class="card-title">
+        <span>🔵 予定一覧</span>
+        <span class="card-title-sub">全 <%= @schedules.count %> 件</span>
+      </h2>
+
+      <ul class="task-list">
+        <% if @schedules.any? %>
+          <% @schedules.each do |schedule| %>
+            <li class="task-item">
+              <input type="checkbox" class="task-checkbox" data-task-id="<%= schedule.id %>" <%= "checked" if schedule.done? %>>
+              <div class="task-content">
+                <div class="task-title"><%= schedule.title %></div>
+                <div class="task-meta">
+                  日時: <%= schedule.start_time ? schedule.start_time.strftime("%Y/%m/%d %H:%M") : "未設定" %>
+                  〜
+                  <%= schedule.end_time ? schedule.end_time.strftime("%H:%M") : "" %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        <% else %>
+          <li class="task-item-empty">登録されている予定はありません</li>
+        <% end %>
+      </ul>
+    </section>
+
+  </div>
+</div>
