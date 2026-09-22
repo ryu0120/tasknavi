@@ -1,0 +1,84 @@
+<div class="dashboard-container">
+  <div class="show-container">
+    <div class="schedule-detail-card">
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: bold;">
+        ✏️ <%= @task.task? ? "タスクの編集" : "予定の編集" %>
+      </h3>
+
+      <%= form_with model: @task, url: task_path(@task), method: :patch, local: true do |f| %>
+        
+        <% if @task.errors.any? %>
+          <div class="error-messages" style="color: #ef4444; margin-bottom: 1rem;">
+            <ul>
+              <% @task.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <!-- 共通：件名 / タイトル -->
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <%= f.label :title, "内容・件名", class: "form-label" %>
+          <%= f.text_field :title, class: "form-input", required: true %>
+        </div>
+
+        <!-- 共通：ステータス選択 (todo / done に対応) -->
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <%= f.label :status, "ステータス", class: "form-label" %>
+            <%= f.select :status, 
+                [
+                  ['未完了', 'todo'], 
+                  ['完了', 'done']
+                ], 
+                {}, 
+                { class: "form-input" } %>
+          </div>
+
+        <% if @task.task? %>
+          <!-- ==========================================
+               1. タスク専用フォーム
+             ========================================== -->
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <%= f.label :due_date, "締め切り日時", class: "form-label" %>
+            <%= f.datetime_field :due_date, class: "form-input" %>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <%= f.label :priority, "優先度", class: "form-label" %>
+            <%= f.select :priority, 
+                [
+                  ['高', 'high'], 
+                  ['中', 'medium'], 
+                  ['低', 'low']
+                ], 
+                {}, 
+                { class: "form-input" } %>
+          </div>
+
+        <% else %>
+          <!-- ==========================================
+               2. 予定（スケジュール）専用フォーム
+             ========================================== -->
+          <div class="form-row" style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
+            <div class="form-group" style="flex: 1;">
+              <%= f.label :start_time, "開始日時", class: "form-label" %>
+              <%= f.datetime_field :start_time, class: "form-input" %>
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <%= f.label :end_time, "終了日時", class: "form-label" %>
+              <%= f.datetime_field :end_time, class: "form-input" %>
+            </div>
+          </div>
+
+        <% end %>
+
+        <!-- アクションボタン -->
+        <div class="detail-actions" style="margin-top: 2rem;">
+          <%= f.submit "変更を保存する", class: "btn btn-primary" %>
+          <%= link_to "キャンセル", task_path(@task), class: "btn btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
