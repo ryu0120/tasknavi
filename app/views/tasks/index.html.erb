@@ -4,27 +4,22 @@
     <div class="logo">TaskNavi</div>
     <div class="header-right">
       <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
-      
       <!-- 今日の画面に戻る動線 -->
       <%= link_to "今日のタスク", today_tasks_path, class: "btn btn-secondary" %>
       <!-- 将来用のカレンダーボタン -->
       <%= link_to "カレンダー表示", "#", class: "btn btn-secondary" %>
-      
-      
       <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>
     </div>
   </header>
 
   <!-- メインコンテンツ（2カラムレイアウト） -->
   <div class="container index-container">
-    
     <!-- 左カラム：すべてのタスク -->
     <section class="card index-column">
       <h2 class="card-title">
         <span>🔴 タスク一覧</span>
         <span class="card-title-sub">全 <%= @tasks.count %> 件</span>
       </h2>
-
       <ul class="task-list">
         <% if @tasks.any? %>
           <% @tasks.each do |task| %>
@@ -53,7 +48,6 @@
         <span>🔵 予定一覧</span>
         <span class="card-title-sub">全 <%= @schedules.count %> 件</span>
       </h2>
-
       <ul class="task-list">
         <% if @schedules.any? %>
           <% @schedules.each do |schedule| %>
@@ -74,6 +68,5 @@
         <% end %>
       </ul>
     </section>
-
   </div>
 </div>
