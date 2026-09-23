@@ -92,4 +92,7 @@
     document.addEventListener('turbo:load', updateProgress);
     document.addEventListener('turbo:load', setupTaskStyles);
     
+    // TODO: リファクタリング予定
+    // - toggleTask と setupTaskStyles のスタイル切り替え処理を共通関数 (applyTaskStyle) に集約する
+    // - JSでの直接スタイル指定ではなく classList.toggle('is-completed', checkbox.checked) を使う設計に変更する
    

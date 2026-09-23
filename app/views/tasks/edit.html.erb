@@ -6,7 +6,7 @@
       </h3>
 
       <%= form_with model: @task, url: task_path(@task), method: :patch, local: true do |f| %>
-        
+         <!-- パーシャル化する -->
         <% if @task.errors.any? %>
           <div class="error-messages" style="color: #ef4444; margin-bottom: 1rem;">
             <ul>
