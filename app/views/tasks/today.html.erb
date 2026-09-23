@@ -15,184 +15,121 @@
   <!-- メインコンテンツ -->
   <div class="container">
     <!-- 左側：タスクエリア -->
-
     <main>
-
       <!-- サマリー（進行度メーター） -->
-
       <section class="card summary-box">
-
         <div class="summary-text" id="summary-remaining">今日やるべきこと：計算中...</div>
-
-        <p class="summary-progress-text" id="summary-progress-text">本日の進行度 (0/0 完了)</p>
-
+          <p class="summary-progress-text" id="summary-progress-text">本日の進行度 (0/0 完了)</p>
         <div class="progress-bar-bg">
-
-        <div class="progress-bar-fill" id="progress-bar-fill"></div>
-
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
         </div>
-
       </section>
-
       <!-- 今日やるタスク -->
-
       <section class="card">
-
         <h2 class="card-title">
-
           <span>今日やるタスク</span>
-
           <span class="card-title-sub">本日：<%= Time.current.strftime("%Y年%m月%d日") %></span>
-
         </h2>
-
         <ul class="task-list" id="today-task-list">
-
-         <% @today_tasks.each do |task| %>
-
+          <% @today_tasks.each do |task| %>
             <li class="task-item">
-
               <input type="checkbox" class="task-checkbox" data-task-id="<%= task.id %>" <%= "checked" if task.done? %>>
-
               <div class="task-content">
-
                 <div class="task-title"><%= task.title %></div>
-
                 <div class="task-meta">
                   <%= task.due_date&.strftime("%H:%M") %>まで / 締め切り本日
                 </div>
-
               </div>
-
               <span class="badge badge-urgent">本日締切</span>
-
             </li>
-
           <% end %>
-
           <% @today_schedules.each do |schedule| %>
-
             <li class="task-item">
-
               <input type="checkbox" class="task-checkbox" data-task-id="<%= schedule.id %>" <%= "checked" if schedule.done? %>>
-
               <div class="task-content">
-
                 <div class="task-title"><%= schedule.title %></div>
-
                 <div class="task-meta">
                   <%= schedule.start_time&.strftime("%H:%M") %>〜<%= schedule.end_time&.strftime("%H:%M") %>
                 </div>
-
               </div>
-
             </li>
-
           <% end %>
-
         </ul>
-
       </section>
-
       <!-- もうすぐ締め切り -->
-
       <section class="card">
-
         <h2 class="card-title">もうすぐ締め切り（直近3日間）</h2>
-
         <ul class="task-list">
-
           <% @upcoming_tasks.each do |task| %>
-
             <li class="task-item">
-
               <input type="checkbox" class="task-checkbox" data-task-id="<%= task.id %>" <%= "checked" if task.done? %>>
-
               <div class="task-content">
-
                 <div class="task-title"><%= task.title %></div>
-
                 <div class="task-meta">
                   <%= task.due_date&.strftime("%m月%d日 %H:%M") %>まで
                 </div>
-
               </div>
-
               <span class="badge badge-warning">もうすぐ</span>
-
             </li>
-
           <% end %>
-
         </ul>
-
       </section>
-
     </main>
 
       <!-- 右側：簡易カレンダー＆警告メッセージ -->
-      
-        <aside>
-          <section class="card">
-            <div class="calendar-header">
-              <%= link_to "←", today_tasks_path(month: @target_date.prev_month.beginning_of_month), class: "calendar-nav-btn" %>
-              <span><%= @target_date.strftime("%Y年 %-m月") %></span>
-              <%= link_to "→", today_tasks_path(month: @target_date.next_month.beginning_of_month), class: "calendar-nav-btn" %>
-              <span class="calendar-legend">● 予定あり</span>
+    <aside>
+      <section class="card">
+        <div class="calendar-header">
+          <%= link_to "←", today_tasks_path(month: @target_date.prev_month.beginning_of_month), class: "calendar-nav-btn" %>
+            <span><%= @target_date.strftime("%Y年 %-m月") %></span>
+          <%= link_to "→", today_tasks_path(month: @target_date.next_month.beginning_of_month), class: "calendar-nav-btn" %>
+            <span class="calendar-legend">● 予定あり</span>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-day-head head-sun">日</div>
+          <div class="calendar-day-head">月</div>
+          <div class="calendar-day-head">火</div>
+          <div class="calendar-day-head">水</div>
+          <div class="calendar-day-head">木</div>
+          <div class="calendar-day-head">金</div>
+          <div class="calendar-day-head head-sat">土</div>
+          <% @calendar_days.each do |day| %>
+            <% 
+              is_other_month = day.month != @target_date.month
+              is_today = day == Date.today
+              has_event = @event_dates.include?(day)
+              classes = ["calendar-day"]
+              classes << "day-disabled" if is_other_month
+              classes << "today" if is_today
+              classes << "has-event" if has_event
+            %>
+            <div class="<%= classes.join(' ') %>" <% if has_event %>title="<%= day.strftime('%m/%d') %> 予定・締め切りあり"<% end %>>
+              <%= day.day %>
             </div>
+          <% end %>
+        </div>
+        <% if @alert_message.present? %>
+          <div class="alert-box">
+            ⚠️ <%= @alert_message %>
+          </div>
+        <% end %>
+      </section>
+    </aside>
+  </div>
 
-            <div class="calendar-grid">
-              <div class="calendar-day-head head-sun">日</div>
-              <div class="calendar-day-head">月</div>
-              <div class="calendar-day-head">火</div>
-              <div class="calendar-day-head">水</div>
-              <div class="calendar-day-head">木</div>
-              <div class="calendar-day-head">金</div>
-              <div class="calendar-day-head head-sat">土</div>
-
-              <% @calendar_days.each do |day| %>
-                <% 
-                  is_other_month = day.month != @target_date.month
-                  is_today = day == Date.today
-                  has_event = @event_dates.include?(day)
-
-                  classes = ["calendar-day"]
-                  classes << "day-disabled" if is_other_month
-                  classes << "today" if is_today
-                  classes << "has-event" if has_event
-                %>
-
-                <div class="<%= classes.join(' ') %>" <% if has_event %>title="<%= day.strftime('%m/%d') %> 予定・締め切りあり"<% end %>>
-                  <%= day.day %>
-                </div>
-              <% end %>
-            </div>
-
-            <% if @alert_message.present? %>
-              <div class="alert-box">
-                ⚠️ <%= @alert_message %>
-              </div>
-            <% end %>
-          </section>
-        </aside>
-    </div>
-
-    <!-- タスク・予定追加モーダル（Rails Model 連携版） -->
-    <div class="modal" id="taskModal">
-      <div class="modal-content">
-        <h3 class="modal-title">＋ 予定・タスクを追加</h3>
-      
+  <!-- タスク・予定追加モーダル（Rails Model 連携版） -->
+  <div class="modal" id="taskModal">
+    <div class="modal-content">
+      <h3 class="modal-title">＋ 予定・タスクを追加</h3>
         <%= form_with model: @task, url: tasks_path, local: true, id: "addTaskForm" do |f| %>
           <div id="jsTimeErrorMessage"></div>
           <!-- status 初期値を todo で送信 -->
           <%= f.hidden_field :status, value: "todo" %>
-
           <!-- 1. 件名 / タイトル -->
           <div class="form-group">
             <%= f.label :title, "内容・件名", class: "form-label" %>
             <%= f.text_field :title, class: "form-input", placeholder: "例：【仕事】企画書の提出、歯医者など", required: true %>
           </div>
-
           <!-- 2. 種別 (item_type) -->
           <div class="form-group">
             <%= f.label :item_type, "種別", class: "form-label", for: "itemTypeSelect" %>
@@ -204,14 +141,12 @@
                 {}, 
                 { class: "form-input", id: "itemTypeSelect" } %>
           </div>
-
           <!-- 3-A. タスク用フィールド -->
           <div id="taskFields">
             <div class="form-group">
               <%= f.label :due_date, "締め切り日時", class: "form-label", for: "inputDueDate" %>
               <%= f.datetime_field :due_date, class: "form-input", id: "inputDueDate" %>
             </div>
-
             <div class="form-group">
               <%= f.label :priority, "優先度", class: "form-label", for: "inputPriority" %>
               <%= f.select :priority, 
@@ -224,7 +159,6 @@
                   { class: "form-input", id: "inputPriority" } %>
             </div>
           </div>
-
           <!-- 3-B. 予定用フィールド -->
           <div id="scheduleFields" style="display: none;">
             <div class="form-row">
@@ -238,13 +172,12 @@
               </div>
             </div>
           </div>
-
           <!-- アクションボタン -->
           <div class="modal-actions">
             <button type="button" class="btn btn-secondary" id="closeModalButton" >キャンセル</button>
             <%= f.submit "登録する", class: "btn btn-primary" %>
           </div>
         <% end %>
-      </div>
     </div>
+  </div>
 </div>
