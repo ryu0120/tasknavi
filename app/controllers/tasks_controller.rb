@@ -45,18 +45,16 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     if @task.save
-      redirect_to today_tasks_path
+      render turbo_stream: turbo_stream.append_all('body', "<script>window.location.href='#{today_tasks_path}'</script>")
     else
       # エラー時の再描画に必要な変数を準備
       today_start = Time.zone.now.beginning_of_day
       today_end = Time.zone.now.end_of_day
-      # 下の変数は何のために書いたのか確認。登録失敗時の挙動を考え直す。
       @today_tasks = current_user.tasks.where(item_type: :task, due_date: today_start..today_end)
       @today_schedules = current_user.tasks.where(item_type: :schedule, start_time: ..today_end, end_time: today_start..)
       @upcoming_tasks = current_user.tasks.where(item_type: :task, due_date: (today_end + 1.second)..(today_end + 3.days))
 
       set_calendar_data
-      # この状態だとrender後にjava scriptが動かない
       render :today, status: :unprocessable_entity
     end
   end
