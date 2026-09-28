@@ -1,7 +1,7 @@
 <div class="dashboard-container">
   <!-- ヘッダー -->
   <header>
-    <div class="logo">TaskNavi</div>
+     <%= link_to "TaskNavi", today_tasks_path, class: "logo" %>
     <div class="header-right">
       <span class="user-welcome">ようこそ、<strong><%= current_user.nickname %></strong> さん</span>
       <!-- ★ 追加：一覧ページへの動線ボタン -->
