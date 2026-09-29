@@ -124,16 +124,8 @@
         <%= turbo_frame_tag "modal_form" do %>
         <%= form_with model: @task, url: tasks_path, id: "addTaskForm" do |f| %>
           <div id="jsTimeErrorMessage"></div>
-          <!-- ★ 追加: Railsモデル（サーバー側）のエラーメッセージ表示 -->
-          <% if @task.errors.any? %>
-            <div id="error_explanation" style="color: red; margin-bottom: 10px;">
-              <ul>
-                <% @task.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
+          <!-- エラーメッセージ表示 -->
+          <%= render "shared/error_messages", model: @task %>
           <!-- status 初期値を todo で送信 -->
           <%= f.hidden_field :status, value: "todo" %>
           <!-- 1. 件名 / タイトル -->

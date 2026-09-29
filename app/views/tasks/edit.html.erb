@@ -6,16 +6,8 @@
       </h3>
 
       <%= form_with model: @task, url: task_path(@task), method: :patch, local: true do |f| %>
-         <!-- パーシャル化する -->
-        <% if @task.errors.any? %>
-          <div class="error-messages" style="color: #ef4444; margin-bottom: 1rem;">
-            <ul>
-              <% @task.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+        <!-- エラーメッセージ表示 --> 
+        <%= render "shared/error_messages", model: @task %>
 
         <!-- 共通：件名 / タイトル -->
         <div class="form-group" style="margin-bottom: 1.25rem;">
