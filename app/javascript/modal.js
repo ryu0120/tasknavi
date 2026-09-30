@@ -10,6 +10,7 @@ function setupModalEvents() {
 // Turboでページが読み込まれたときに基本イベントを設定
 document.addEventListener('turbo:load', setupModalEvents);
 
+// 1~4までdocumentにイベント委譲
 // 1. モーダル内のクリックイベント（キャンセルボタン・背景クリック対応）
 document.addEventListener('click', function(event) {
   // キャンセルボタン（id="closeModalButton"）が押された場合
@@ -38,6 +39,7 @@ document.addEventListener('submit', function(event) {
   }
 });
 
+// render後も種別によりフォームを正しく表示するために必要
 // 4. Turbo Frameでモーダル内が更新された直後に切り替え表示を再計算
 document.addEventListener('turbo:frame-load', function(event) {
   if (event.target.id === 'modal_form') {

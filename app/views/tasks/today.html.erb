@@ -121,6 +121,7 @@
   <div class="modal" id="taskModal">
     <div class="modal-content">
       <h3 class="modal-title">＋ 予定・タスクを追加</h3>
+        <!-- render時 modal_formの中身だけ差し替える モーダルを開いたままにする効果あり-->
         <%= turbo_frame_tag "modal_form" do %>
         <%= form_with model: @task, url: tasks_path, id: "addTaskForm" do |f| %>
           <div id="jsTimeErrorMessage"></div>

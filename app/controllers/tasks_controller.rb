@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
   def today
     @task = Task.new
 
@@ -35,11 +36,9 @@ class TasksController < ApplicationController
   end
 
   def show
-    @task = current_user.tasks.find(params[:id])
   end
 
   def edit
-    @task = current_user.tasks.find(params[:id])
   end
 
   def create
@@ -60,9 +59,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task = current_user.tasks.find(params[:id])
-
-    if @task.update(task_params)
+    if @task.update(update_task_params)
       respond_to do |format|
         # 1. index.html.erb / today.html.erb のチェックボックス（fetch非同期通信）
         format.json { render json: { status: 'success', task: @task } }
@@ -82,7 +79,6 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = current_user.tasks.find(params[:id])
     @task.destroy
     redirect_to tasks_path
   end
@@ -124,5 +120,9 @@ class TasksController < ApplicationController
 
     # タスクまたは予定がある日付の集合（重複排除）
     @event_dates = (task_dates + schedule_dates).uniq
+  end
+
+  def set_task
+    @task = current_user.tasks.find(params[:id])
   end
 end
