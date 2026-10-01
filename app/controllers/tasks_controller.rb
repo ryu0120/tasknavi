@@ -27,6 +27,10 @@ class TasksController < ApplicationController
     set_calendar_data
   end
 
+  def calendar
+    @tasks = current_user.tasks
+  end
+
   def index
     # 1. 全タスク（締め切りが近い順）
     @tasks = current_user.tasks.where(item_type: :task).order(due_date: :asc)

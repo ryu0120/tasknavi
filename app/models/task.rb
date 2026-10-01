@@ -39,4 +39,12 @@ class Task < ApplicationRecord
 
     errors.add(:end_time) if end_time <= start_time
   end
+
+  def calendar_start_time
+    task? ? due_date : start_time
+  end
+
+  def calendar_end_time
+    task? ? due_date : end_time
+  end
 end

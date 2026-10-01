@@ -1,0 +1,53 @@
+<div class="calendar-page-wrapper">
+
+  <header class="calendar-header">
+    <%= link_to "TaskNavi", today_tasks_path, class: "calendar-logo" %>
+
+    <div class="calendar-header-right">
+      <%= link_to "今日のタスク", today_tasks_path, class: "calendar-btn calendar-btn-secondary" %>
+
+      <%= link_to "タスク・予定一覧", tasks_path, class: "calendar-btn calendar-btn-secondary" %>
+
+      <%= link_to "ログアウト",
+          destroy_user_session_path,
+          data: { turbo_method: :delete },
+          class: "calendar-btn calendar-btn-logout" %>
+    </div>
+  </header>
+
+  <div class="calendar-page">
+
+    <h1 class="calendar-page-title">カレンダー</h1>
+
+    <%= month_calendar(
+      events: @tasks,
+      attribute: :calendar_start_time,
+      end_attribute: :calendar_end_time
+    ) do |date, tasks| %>
+
+      <div class="calendar-date">
+        <%= date.day %>
+      </div>
+
+      <% tasks.each do |task| %>
+        <div class="calendar-event">
+          <% if task.task? %>
+            <%= task.calendar_start_time.strftime("%H:%M") %>締切
+          <% else %>
+            <%= task.calendar_start_time.strftime("%H:%M") %>
+            -
+            <%= task.calendar_end_time.strftime("%H:%M") %>
+          <% end %>
+
+          <%= task.title %>
+        </div>
+      <% end %>
+
+    <% end %>
+
+  </div>
+
+</div>
+
+
+
