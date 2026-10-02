@@ -7,7 +7,7 @@
       <!-- 今日の画面に戻る動線 -->
       <%= link_to "今日のタスク", today_tasks_path, class: "btn btn-secondary" %>
       <!-- 将来用のカレンダーボタン -->
-      <%= link_to "カレンダー表示", "#", class: "btn btn-secondary" %>
+      <%= link_to "カレンダー表示", calendar_tasks_path, class: "btn btn-secondary" %>
       <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-logout" %>
     </div>
   </header>
