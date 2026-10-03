@@ -1,66 +1,8 @@
 /* ==========================================
-   TaskNavi カレンダーページ専用スタイル
-   ========================================== */
-
-.calendar-page-wrapper {
-  min-height: 100vh;
-  background-color: #f8fafc;
-  color: #1e293b;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-}
-
-/* ==========================================
-   ヘッダー
-   ========================================== */
-
-.calendar-page-wrapper .calendar-header {
-  width: 100%;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.calendar-page-wrapper .calendar-logo {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.calendar-page-wrapper .calendar-header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.calendar-page-wrapper .calendar-btn {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  text-decoration: none;
-}
-
-.calendar-page-wrapper .calendar-btn-secondary {
-  background-color: #e2e8f0;
-  color: #1e293b;
-}
-
-.calendar-page-wrapper .calendar-btn-logout {
-  background-color: transparent;
-  color: #64748b;
-  border: 1px solid #e2e8f0;
-}
-
-/* ==========================================
    カレンダー本体
    ========================================== */
 
-.calendar-page {
+.dashboard-container .calendar-page {
   max-width: 1100px;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -186,5 +128,40 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container .calendar-page {
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .calendar-page .simple-calendar {
+    padding: 0.5rem;
+  }
+
+  .calendar-page table {
+    border-spacing: 2px;
+  }
+
+  .calendar-page th {
+    padding: 6px 2px;
+    font-size: 0.75rem;
+  }
+
+  .calendar-page td {
+    height: 80px;
+    padding: 4px;
+  }
+
+  .calendar-page .calendar-date {
+    font-size: 0.75rem;
+    margin-bottom: 3px;
+  }
+
+  .calendar-page .calendar-event {
+    padding: 2px 3px;
+    font-size: 0.65rem;
+  }
 }
 

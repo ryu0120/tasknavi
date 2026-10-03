@@ -5,7 +5,7 @@
 }
 
 .error-message {
-  font-size: 1.3vw;
+  font-size: 0.9rem;
   list-style: circle;
   color: rgb(182, 48, 0);
 }
