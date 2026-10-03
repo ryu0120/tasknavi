@@ -39,7 +39,7 @@
             <%= task.calendar_end_time.strftime("%H:%M") %>
           <% end %>
 
-          <%= task.title %>
+          <%= link_to task.title, task_path(task) %>
         </div>
       <% end %>
 
