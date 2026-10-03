@@ -1,17 +1,17 @@
-<div class="calendar-page-wrapper">
+<div class="dashboard-container">
 
-  <header class="calendar-header">
-    <%= link_to "TaskNavi", today_tasks_path, class: "calendar-logo" %>
+  <header>
+    <%= link_to "TaskNavi", today_tasks_path, class: "logo" %>
 
-    <div class="calendar-header-right">
-      <%= link_to "今日のタスク", today_tasks_path, class: "calendar-btn calendar-btn-secondary" %>
+    <div class="header-right">
+      <%= link_to "今日のタスク", today_tasks_path, class: "btn btn-secondary" %>
 
-      <%= link_to "タスク・予定一覧", tasks_path, class: "calendar-btn calendar-btn-secondary" %>
+      <%= link_to "タスク・予定一覧", tasks_path, class: "btn btn-secondary" %>
 
       <%= link_to "ログアウト",
           destroy_user_session_path,
           data: { turbo_method: :delete },
-          class: "calendar-btn calendar-btn-logout" %>
+          class: "btn btn-logout" %>
     </div>
   </header>
 

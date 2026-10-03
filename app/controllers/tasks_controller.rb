@@ -127,6 +127,7 @@ class TasksController < ApplicationController
   end
 
   def set_task
+    # 自分のデータに限定してからIDを探すことで、他人の予定タスク詳細ページは取得できない設計
     @task = current_user.tasks.find(params[:id])
   end
 end
