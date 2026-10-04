@@ -1,24 +1,135 @@
-# README
+# アプリケーション名
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+TaskNavi
 
-Things you may want to cover:
+## アプリケーション概要
 
-* Ruby version
+TaskNaviは、日々のタスクや予定をまとめて管理できるアプリケーションです。
 
-* System dependencies
+タスクの期限や優先度、予定の日時などを登録し、今日や今後の予定を一覧やカレンダーから確認できます。
 
-* Configuration
+タスクと予定を一元管理することで、期限や予定の見落としを防ぐことを目的としています。
 
-* Database creation
+## URL
 
-* Database initialization
+https://tasknavi.onrender.com
 
-* How to run the test suite
+## テスト用アカウント
 
-* Services (job queues, cache servers, search engines, etc.)
+- メールアドレス：test@test.com
+- パスワード：testtest
 
-* Deployment instructions
+## 利用方法
 
-* ...
+1. テスト用アカウントでログインします。
+2. 「予定・締め切りを追加」から、タスクまたは予定を登録します。
+3. タスクの場合は、締め切り日時や優先度を設定します。
+4. 予定の場合は、開始日時と終了日時を設定します。
+5. 登録したタスクや予定を「タスク・予定一覧」から確認できます。
+6. 今日のタスク・予定は「今日のタスク・予定」画面から確認できます。
+7. 「カレンダー表示」から、登録したタスクや予定を日付ごとに確認できます。
+8. 登録したタスクや予定は、編集・削除できます。
+9. タスクを完了した場合は、「今日のタスク」「タスク・予定一覧」からチェックボックスで完了状態に変更できます。
+
+
+## アプリケーションを作成した背景
+
+複数の予定や締め切りを抱えた際に、「何をいつまでにやればいいのか分からなくなる」という課題を解決するために、TaskNaviを制作しました。
+
+実際に、複数の予定や締め切りを抱えたことで、予定そのものを把握できなかったり、優先順位が分からなくなってダブルブッキングをしてしまった経験があります。
+
+そこで、タスクの期限や優先度、予定の日時を一元管理し、今日や今後の予定を一覧やカレンダーから確認できるようにしました。
+
+TaskNaviを利用することで、やるべきことや予定を明確にし、優先順位を整理しながら迷わず行動できるようにすることを目指しています。
+
+## 実装した機能についての画像やGIFおよびその説明
+
+タスク・予定の登録
+
+タスクを登録する場合
+
+https://gyazo.com/84a63754f7dade96eb2d2bbbe0512b4b
+
+タスクの期限や優先度を設定して登録できます。
+
+予定を登録する場合
+
+https://gyazo.com/6293c7ef38119666bdda50ebeb7c0878
+
+予定の開始日時と終了日時を設定して登録できます。
+
+今日のタスク・予定
+
+https://gyazo.com/8030a8e0b8448f9cde468c7b845ca02f
+
+今日のタスクや予定を一覧で確認できます。タスクの完了・未完了も管理できます。
+
+カレンダー表示
+
+https://gyazo.com/025ffdb087f939c0e1343f34477373fe
+
+登録したタスクや予定をカレンダー上で確認できます。日付ごとの予定を視覚的に把握できます。
+
+タスク・予定の編集・削除
+
+https://gyazo.com/c2bfcf1615522a884339bd227fd05dec
+
+https://gyazo.com/87780599862e97edd8047f5a08f05840
+
+登録したタスクや予定の内容を編集・削除できます。
+
+## 実装予定の機能
+
+1. **締め切り前の通知機能**
+
+   * タスクや予定の締め切りが近づいた際に通知し、期限や予定の見落としを防げるようにする。
+
+2. **レスポンシブ対応**
+
+   * スマートフォンやタブレットなど、さまざまな画面サイズでも利用しやすいように対応する。
+
+3. **カテゴリー機能**
+
+   * タスクや予定をカテゴリーごとに分類し、目的や内容に応じて整理できるようにする。
+
+
+## データベース設計
+
+
+
+## 画面遷移図
+
+## 開発環境
+
+## 開発環境
+
+* Ruby 3.2.0
+* Ruby on Rails 7.1.6
+* JavaScript
+* HTML / CSS
+* MySQL
+* Sequel Ace
+* GitHub
+* GitHub Desktop
+* Visual Studio Code
+* Render
+
+
+## ローカルでの動作方法
+
+以下のコマンドを実行してください。
+
+git clone https://github.com/ryu0120/tasknavi.git
+cd tasknavi
+bundle install
+rails db:create
+rails db:migrate
+rails server
+
+ブラウザで http://localhost:3000 にアクセスしてください。
+
+## 工夫したポイント
+
+## 改善点
+
+## 制作時間
