@@ -122,10 +122,15 @@ https://gyazo.com/87780599862e97edd8047f5a08f05840
 以下のコマンドを実行してください。
 
 git clone https://github.com/ryu0120/tasknavi.git
+
 cd tasknavi
+
 bundle install
+
 rails db:create
+
 rails db:migrate
+
 rails server
 
 ブラウザで http://localhost:3000 にアクセスしてください。
