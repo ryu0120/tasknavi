@@ -101,7 +101,7 @@ class TasksController < ApplicationController
 
   def set_calendar_data
     # 表示対象の年月（パラメータ指定がなければ今月）
-    @target_date = params[:month] ? Date.parse(params[:month]).beginning_of_month : Date.today.beginning_of_month
+    @target_date = parse_target_date(params[:month])
 
     # カレンダーのマス目を埋める日付（日曜始まり〜土曜終わり）
     calendar_start = @target_date.beginning_of_month.beginning_of_week(:sunday)
@@ -129,5 +129,14 @@ class TasksController < ApplicationController
   def set_task
     # 自分のデータに限定してからIDを探すことで、他人の予定タスク詳細ページは取得できない設計
     @task = current_user.tasks.find(params[:id])
+  end
+
+  # 月パラメータが空または不正な場合は、今月を表示
+  def parse_target_date(month_param)
+    return Date.today.beginning_of_month if month_param.blank?
+
+    Date.parse(month_param).beginning_of_month
+  rescue Date::Error, ArgumentError
+    Date.today.beginning_of_month
   end
 end
