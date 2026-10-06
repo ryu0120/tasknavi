@@ -29,6 +29,7 @@ class TasksController < ApplicationController
 
   def calendar
     @tasks = current_user.tasks
+    @calendar_start_date = parse_calendar_start_date
   end
 
   def index
@@ -117,7 +118,8 @@ class TasksController < ApplicationController
 
     # 2. 予定（開始日時）が存在する日付
     schedule_dates = current_user.tasks
-                                 .where(item_type: :schedule, start_time: calendar_start.beginning_of_day..calendar_end.end_of_day)
+                                 .where(item_type: :schedule,
+                                        start_time: calendar_start.beginning_of_day..calendar_end.end_of_day)
                                  .pluck(:start_time)
                                  .compact
                                  .map(&:to_date)
@@ -136,7 +138,15 @@ class TasksController < ApplicationController
     return Date.today.beginning_of_month if month_param.blank?
 
     Date.parse(month_param).beginning_of_month
-  rescue Date::Error, ArgumentError
+  rescue ArgumentError
     Date.today.beginning_of_month
+  end
+
+  def parse_calendar_start_date
+    return Date.current if params[:start_date].blank?
+
+    Date.iso8601(params[:start_date])
+  rescue ArgumentError
+    Date.current
   end
 end
