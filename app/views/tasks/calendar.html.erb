@@ -21,6 +21,9 @@
 
     <%= month_calendar(
       events: @tasks,
+      # start_dateを指定することで、Simple Calendarが直接params[:start_date]を扱わないようにする。
+      # Controllerで不正な値を現在の日付に置き換えてから渡している。
+      start_date: @calendar_start_date,
       attribute: :calendar_start_time,
       end_attribute: :calendar_end_time
     ) do |date, tasks| %>
