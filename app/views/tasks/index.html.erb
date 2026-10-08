@@ -56,9 +56,9 @@
               <div class="task-content">
                 <div class="task-title"><%= link_to schedule.title, task_path(schedule), class: "task-link" %></div>
                 <div class="task-meta">
-                  日時: <%= schedule.start_time ? schedule.start_time.strftime("%Y/%m/%d %H:%M") : "未設定" %>
+                  日時: <%= schedule.start_time.strftime("%Y/%m/%d %H:%M") %>
                   〜
-                  <%= schedule.end_time ? schedule.end_time.strftime("%H:%M") : "" %>
+                  <%= schedule.start_time.to_date == schedule.end_time.to_date ? schedule.end_time.strftime("%H:%M") : schedule.end_time.strftime("%Y/%m/%d %H:%M") %>
                 </div>
               </div>
             </li>
