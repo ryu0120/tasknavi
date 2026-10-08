@@ -70,9 +70,9 @@
           <div class="detail-item">
             <span class="detail-label">日時</span>
             <span class="detail-value">
-              <%= @task.start_time ? @task.start_time.strftime("%Y/%m/%d %H:%M") : "未設定" %>
+              <%= @task.start_time.strftime("%Y/%m/%d %H:%M") %>
               〜
-              <%= @task.end_time ? @task.end_time.strftime("%H:%M") : "未設定" %>
+              <%= @task.start_time.to_date == @task.end_time.to_date ? @task.end_time.strftime("%H:%M") : @task.end_time.strftime("%Y/%m/%d %H:%M") %>
             </span>
           </div>
         <% end %>
