@@ -130,6 +130,12 @@
   white-space: nowrap;
 }
 
+/* 予定タイトルのリンク */
+.calendar-page .calendar-event a {
+  color: inherit;
+  text-decoration: none;
+}
+
 @media (max-width: 768px) {
   .dashboard-container .calendar-page {
     width: 100%;
