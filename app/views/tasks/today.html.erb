@@ -27,7 +27,7 @@
       <!-- 今日やるタスク -->
       <section class="card">
         <h2 class="card-title">
-          <span>今日やるタスク</span>
+          <span>今日やること</span>
           <span class="card-title-sub">本日：<%= Time.current.strftime("%Y年%m月%d日") %></span>
         </h2>
         <ul class="task-list" id="today-task-list">
@@ -40,6 +40,11 @@
                   <%= task.due_date&.strftime("%H:%M") %>まで / 締め切り本日
                 </div>
               </div>
+              <% if task.priority.present? %>
+                <span class="badge badge-<%= task.priority %>">
+                  <%= task.priority_i18n rescue task.priority %>
+                </span>
+              <% end %>
               <span class="badge badge-urgent">本日締切</span>
             </li>
           <% end %>
@@ -56,9 +61,9 @@
           <% end %>
         </ul>
       </section>
-      <!-- もうすぐ締め切り -->
+      <!-- もうすぐ -->
       <section class="card">
-        <h2 class="card-title">もうすぐ締め切り（直近3日間）</h2>
+        <h2 class="card-title">もうすぐ（直近3日間）</h2>
         <ul class="task-list">
           <% @upcoming_tasks.each do |task| %>
             <li class="task-item">
@@ -67,6 +72,23 @@
                 <div class="task-title"><%= link_to task.title, task_path(task), class: "task-link" %></div>
                 <div class="task-meta">
                   <%= task.due_date&.strftime("%m月%d日 %H:%M") %>まで
+                </div>
+              </div>
+              <% if task.priority.present? %>
+                <span class="badge badge-<%= task.priority %>">
+                  <%= task.priority_i18n rescue task.priority %>
+                </span>
+              <% end %>
+              <span class="badge badge-warning">もうすぐ</span>
+            </li>
+          <% end %>
+          <% @upcoming_schedules.each do |schedule| %>
+            <li class="task-item">
+              <input type="checkbox" class="task-checkbox" data-task-id="<%= schedule.id %>" <%= "checked" if schedule.done? %>>
+              <div class="task-content">
+                <div class="task-title"><%= link_to schedule.title, task_path(schedule), class: "task-link" %></div>
+                <div class="task-meta">
+                  <%= schedule.start_time&.strftime("%m月%d日 %H:%M") %>〜<%= schedule.end_time&.strftime("%m月%d日 %H:%M") %>
                 </div>
               </div>
               <span class="badge badge-warning">もうすぐ</span>

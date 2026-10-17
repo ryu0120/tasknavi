@@ -23,6 +23,11 @@ class TasksController < ApplicationController
       due_date: (today_end + 1.second)..(today_end + 3.days)
     )
 
+    @upcoming_schedules = current_user.tasks.where(
+      item_type: :schedule,
+      start_time: (today_end + 1.second)..(today_end + 3.days)
+    )
+
     # カレンダー用データセットアップ
     set_calendar_data
   end
