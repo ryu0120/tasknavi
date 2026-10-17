@@ -40,6 +40,11 @@
                   <%= task.due_date&.strftime("%H:%M") %>まで / 締め切り本日
                 </div>
               </div>
+              <% if task.priority.present? %>
+                <span class="badge badge-<%= task.priority %>">
+                  <%= task.priority_i18n rescue task.priority %>
+                </span>
+              <% end %>
               <span class="badge badge-urgent">本日締切</span>
             </li>
           <% end %>
@@ -69,6 +74,11 @@
                   <%= task.due_date&.strftime("%m月%d日 %H:%M") %>まで
                 </div>
               </div>
+              <% if task.priority.present? %>
+                <span class="badge badge-<%= task.priority %>">
+                  <%= task.priority_i18n rescue task.priority %>
+                </span>
+              <% end %>
               <span class="badge badge-warning">もうすぐ</span>
             </li>
           <% end %>
